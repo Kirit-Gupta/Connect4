@@ -1,5 +1,6 @@
 from copy import deepcopy
 from .constants import RED, YELLOW
+import random
 
 class MiniMax:
     def __init__(self, depth, col):
@@ -10,9 +11,21 @@ class MiniMax:
         else:
             self.human_col = RED
     
+    #Not neccesarily best move.
     def get_best_move(self, board):
-        _, best_col = self.minimax(board, self.depth, float('-inf'), float('inf'), True)
-        return best_col
+        valid_cols = [c for c, ok in enumerate(board.get_valid_moves()) if ok]
+        scores = []
+        for col in valid_cols:
+            child = self.simulate(board, col, self.ai_color)
+            score, _ = self.minimax(child, self.depth - 1, float('-inf'), float('inf'), False)
+            scores.append((score, col))
+        
+        scores.sort(reverse=True)
+        top_moves = scores[:3]
+
+        weights = [max(s + 1000001, 1) for s, _ in top_moves]
+        chosen = random.choices(top_moves, weights=weights, k=1)[0]
+        return chosen[1]
         
     def minimax(self, board, depth, alpha, beta, max_player):
         winner = board.check_win()
