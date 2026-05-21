@@ -21,7 +21,7 @@ class MiniMax:
             scores.append((score, col))
         
         scores.sort(reverse=True)
-        top_moves = scores[:3]
+        top_moves = scores[:2]
 
         weights = [max(s + 1000001, 1) for s, _ in top_moves]
         chosen = random.choices(top_moves, weights=weights, k=1)[0]
