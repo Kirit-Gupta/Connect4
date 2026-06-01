@@ -52,7 +52,7 @@ class Game:
                     self.ai_move = None
                     tp = self.draw.animate_draw_token(self.turn, col, self.board, self.win_count)
                     self.run = not (tp == False)
-                    _, __, added = self.    board.add_counter(self.turn, col, gameover=self.game_over)
+                    _, __, added = self.board.add_counter(self.turn, col, gameover=self.game_over)
                     if added:
                         self.next_turn()
                         continue
